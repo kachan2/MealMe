@@ -6,14 +6,14 @@
 | ----------- | ---------------------- |
 | TeamID      |        Team-020        |
 | TeamName    |      TheMiniLegends    |
-| Captain     |            |
-| Captain     |  @illinois.edu  |
-| Member1     |               |
-| Member1     |   @illinois.edu  |
-| Member2     |    |
-| Member2     |   @illinois.edu  |
-| Member3     |          |
-| Member3     |  @illinois.edu |
+| Captain     |       Andrea Zhou     |
+| Captain     |  andreaz3@illinois.edu  |
+| Member1     |        Kaitlyn Chan       |
+| Member1     |   kachan2@illinois.edu  |
+| Member2     |   Lina Mei |
+| Member2     |   lmei25@illinois.edu  |
+| Member3     |     Hanning Zhang     |
+| Member3     |  hanning5@illinois.edu |
 
 ## Project Information
 
