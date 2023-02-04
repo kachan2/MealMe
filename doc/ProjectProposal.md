@@ -1,5 +1,6 @@
 # MealMe
 > Lina Mei, Andrea Zhou, Hanning Zhang, Kaitlyn Chan
+> 
 MealMe is a website that helps users to discover, track, and organize their recipes with a simple and user-friendly interface. Users can also receive recommendations based on recipes they’ve liked before, and have the option to filter recipes based on different factors.
 
 ### Description 
