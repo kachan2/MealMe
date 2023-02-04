@@ -1,7 +1,5 @@
 # MealMe
 > Lina Mei, Andrea Zhou, Hanning Zhang, Kaitlyn Chan
-
-## Project Summary 
 MealMe is a website that helps users to discover, track, and organize their recipes with a simple and user-friendly interface. Users can also receive recommendations based on recipes they’ve liked before, and have the option to filter recipes based on different factors.
 
 ### Description 
@@ -19,13 +17,17 @@ There are four main datatables in the database. One of them will have the Recipe
 Our application’s main components are the recommendations page, library, and inventory. Users can interact with these parts by adding and liking recipes, maintaining their inventory, and managing their library. 
 
 ### Basic Functions
-When users first open to the website, a list of all the recipes from the dataset will be displayed on the homepage. Users have the option to favorite a recipe which creates a new tuple with the userId and the recipeId. The tuple is then added to the Favorite dataset. When users unfavorite a recipe, the tuple will be deleted. An insert or delete to the Favorite relation will trigger an update to the Recommendation dataset. Users also have the option to record items that they already have in their inventory. By typing in the items, this will update their respective inventory list in the inventory data relation. An update to the Inventory relation will trigger an update to the Recommendation relation. Using the recommendation dataset that we created, there will be a random recipe generator to recommend new recipes based on similar tags from the recipes the users had liked. As the users continue to interact by favoriting and unfavoriting recipes, different recipes will continue to be recommended.
+When users first open to the website, a list of all the recipes from the dataset will be displayed on the homepage. Users have the option to favorite a recipe which creates a new tuple with the userId and the recipeId. The tuple is then added to the Favorite dataset. When users unfavorite a recipe, the tuple will be deleted. An insert or delete to the Favorite relation will trigger an pdate to the Recommendation dataset. Users also have the option to record items that they already have in their inventory. By typing in the items, this will update their respective inventory list in the inventory data relation. An update to the Inventory relation will trigger an update to the Recommendation relation. Using the recommendation dataset that we created, there will be a random recipe generator to recommend new recipes based on similar tags from the recipes the users had liked. As the users continue to interact by favoriting and unfavoriting recipes, different recipes will continue to be recommended.
 
 ### Creative Components
 To improve the functionality of our application, we plan on implementing a “recipe randomizer”. If users want to try a different cuisine or ingredient from their normal preferences, they can visit the randomizer. After pressing a button, the randomizer will filter out the most common tags found in their recipe library, and then randomly select a recipe to display to the user on the page.
 
 ### UI Mockup 
 > a possible final application interface
+
+<img src="./UI_mockup/recommendations_page.png" width="85%" height="85%">
+<img src="./UI_mockup/favorites_page.png" width="85%" height="85%">
+<img src="./UI_mockup/inventory_page.png" width="85%" height="85%">
 
 ### Project Work Distribution
 There are four categories of information that will need to be displayed on the website such as data for the recommended recipes, favorite recipes, user’s inventory, and all the recipes from the dataset. We plan on distributing the tasks and subtasks for database management as follows: 
