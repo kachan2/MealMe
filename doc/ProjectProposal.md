@@ -1,6 +1,7 @@
 # MealMe
 > Lina Mei, Andrea Zhou, Hanning Zhang, Kaitlyn Chan
-> 
+
+## Project Summary
 MealMe is a website that helps users to discover, track, and organize their recipes with a simple and user-friendly interface. Users can also receive recommendations based on recipes they’ve liked before, and have the option to filter recipes based on different factors.
 
 ### Description 
@@ -24,10 +25,13 @@ When users first open to the website, a list of all the recipes from the dataset
 To improve the functionality of our application, we plan on implementing a “recipe randomizer”. If users want to try a different cuisine or ingredient from their normal preferences, they can visit the randomizer. After pressing a button, the randomizer will filter out the most common tags found in their recipe library, and then randomly select a recipe to display to the user on the page.
 
 ### UI Mockup 
-> a possible final application interface
-
+Recommendations Page: 
 <img src="./UI_mockup/recommendations_page.png" width="85%" height="85%">
+
+Favorites Page: 
 <img src="./UI_mockup/favorites_page.png" width="85%" height="85%">
+
+Inventory Page:
 <img src="./UI_mockup/inventory_page.png" width="85%" height="85%">
 
 ### Project Work Distribution
