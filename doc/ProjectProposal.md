@@ -1,5 +1,7 @@
 # MealMe
 > Lina Mei, Andrea Zhou, Hanning Zhang, Kaitlyn Chan
+
+## Project Summary
 MealMe is a website that helps users to discover, track, and organize their recipes with a simple and user-friendly interface. Users can also receive recommendations based on recipes they’ve liked before, and have the option to filter recipes based on different factors.
 
 ### Description 
@@ -28,6 +30,7 @@ To improve the functionality of our application, we plan on implementing a “re
 <img src="./images/recommendations_page.png" width="85%" height="85%">
 <img src="./images/favorites_page.png" width="85%" height="85%">
 <img src="./images/inventory_page.png" width="85%" height="85%">
+
 
 ### Project Work Distribution
 There are four categories of information that will need to be displayed on the website such as data for the recommended recipes, favorite recipes, user’s inventory, and all the recipes from the dataset. We plan on distributing the tasks and subtasks for database management as follows: 
