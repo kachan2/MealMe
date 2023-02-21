@@ -25,9 +25,9 @@ To improve the functionality of our application, we plan on implementing a “re
 ### UI Mockup 
 > a possible final application interface
 
-<img src="./UI_mockup/recommendations_page.png" width="85%" height="85%">
-<img src="./UI_mockup/favorites_page.png" width="85%" height="85%">
-<img src="./UI_mockup/inventory_page.png" width="85%" height="85%">
+<img src="./images/recommendations_page.png" width="85%" height="85%">
+<img src="./images/favorites_page.png" width="85%" height="85%">
+<img src="./images/inventory_page.png" width="85%" height="85%">
 
 ### Project Work Distribution
 There are four categories of information that will need to be displayed on the website such as data for the recommended recipes, favorite recipes, user’s inventory, and all the recipes from the dataset. We plan on distributing the tasks and subtasks for database management as follows: 
