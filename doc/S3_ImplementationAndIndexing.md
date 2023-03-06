@@ -91,7 +91,11 @@ FROM Recipes r JOIN Steps s ON (r.RecipeId = s.Instruct)
 GROUP BY r.RecipeId
 ```
 ### Execution: 
-SHOW FIRST 15 ROWS OF QUERY
+The output of our query 1 is formatted as such: <br>
+<img src="./images/gcp_setup/query1_1.png" width="40%" height="40%">
+<img src="./images/gcp_setup/query1_2.png" width="40%" height="40%"> <br>
+However, the output prints beyond the capacity of the terminal and it would be an extremely long image, so here's 15 rows without the Instructions Column: <br>
+<img src="./images/gcp_setup/query_11.png" width="100%" height="100%">
 
 
 ## Query 2: 
@@ -99,14 +103,14 @@ SHOW FIRST 15 ROWS OF QUERY
 Gather easy and fast recipes that have less than 10 steps, take less than 30 minutes, and require less than 10 ingredients.
 ```
 SELECT RecipeId
-FROM Recipes NATURAL JOIN Require
+FROM Recipes NATURAL JOIN Requires
 WHERE time < 30 AND NumberOfSteps <10
 GROUP BY RecipeId
-HAVING count(Ingredients) < 10
+HAVING COUNT(IngredientName) < 10
 ```
 
 ### Execution: 
-SHOW FIRST 15 ROWS OF QUERY
+<img src="./images/gcp_setup/query2.png" width="70%" height="70%">
 
 
 # Indexing 
@@ -118,7 +122,7 @@ SHOW FIRST 15 ROWS OF QUERY
 ## Query 1 Indices:
 
 #### EXPLAIN ANALYZE (No Indices) 
-INSERT IMAGE
+<img src="./images/gcp_setup/q1_no_indices.png" width="100%" height="100%">
 GIVE EXPLANATION/ANALYSIS
 
 #### EXPLAIN ANALYZE (RecipeId)
@@ -140,7 +144,7 @@ OUR CONCLUSION AND WHICH INDICES WE'RE GOING TO USE
 ## Query 2 Indices:
 
 ### EXPLAIN ANALYZE (No Indices) 
-INSERT IMAGE
+<img src="./images/gcp_setup/q2_no_indices.png" width="100%" height="100%">
 GIVE EXPLANATION/ANALYSIS
 
 ### EXPLAIN ANALYZE (RecipeId)
