@@ -100,11 +100,11 @@ However, the output prints beyond the capacity of the terminal and it would be a
 
 ## Query 2: 
 ### Description: 
-Gather easy and fast recipes that have less than 10 steps, take less than 30 minutes, and require less than 10 ingredients.
+Gather easy and fast recipes that have less than 10 steps and require less than 10 ingredients.
 ```
 SELECT RecipeId
 FROM Recipes NATURAL JOIN Requires
-WHERE time < 30 AND NumberOfSteps <10
+WHERE NumberOfSteps <10
 GROUP BY RecipeId
 HAVING COUNT(IngredientName) < 10;
 ```
