@@ -88,7 +88,7 @@ SELECT RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction
                                                     ORDER BY OrderNumber ASC 
                                                     SEPARATOR '\n ' ) AS Instructions
 FROM Recipes r JOIN Steps s ON (r.RecipeId = s.Instruct)
-GROUP BY r.RecipeId
+GROUP BY r.RecipeId;
 ```
 ### Execution: 
 The output of our query 1 is formatted as such: <br>
@@ -106,7 +106,7 @@ SELECT RecipeId
 FROM Recipes NATURAL JOIN Requires
 WHERE time < 30 AND NumberOfSteps <10
 GROUP BY RecipeId
-HAVING COUNT(IngredientName) < 10
+HAVING COUNT(IngredientName) < 10;
 ```
 
 ### Execution: 
@@ -121,43 +121,53 @@ HAVING COUNT(IngredientName) < 10
 
 ## Query 1 Indices:
 
-#### EXPLAIN ANALYZE (No Indices) 
-<img src="./images/gcp_setup/q1_no_indices.png" width="100%" height="100%">
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (No Indices) 
+<img src="./images/gcp_setup/explain_analyze/q1_no_indices.png" width="100%" height="100%"><br>
+A query performance of 8.66s definitely has some room for improvement
 
-#### EXPLAIN ANALYZE (RecipeId)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (Instruction)
+<img src="./images/gcp_setup/explain_analyze/q1_createIdx_instruction.png" width="50%" height="50%">
+<img src="./images/gcp_setup/explain_analyze/q1_queryPerf_instruction.png" width="100%" height="100%"> <br>
+We looked at adding an index for the Instruction column in Steps because we use it for concatenating the column values into an aggregated query. Adding this index tends to slightly increase the performance of query 1. Compared to the query run with no indices (8.66s), adding in an index for Instruction runs in approximately 7.97s. 
 
-#### EXPLAIN ANALYZE (CHOOSE ANOTHER INDEX)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (Time)
+<img src="./images/gcp_setup/explain_analyze/q1_createIdx_time.png" width="40%" height="40%">
+<img src="./images/gcp_setup/explain_analyze/q1_queryPerf_time.png" width="100%" height="100%"> <br>
+We choose this index because it is one of the indexes that we are returning. The performance time with the Time index was 0.91 seconds faster than without.
 
-#### EXPLAIN ANALYZE (CHOOSE ONE MORE INDEX)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (RecipeName)
+<img src="./images/gcp_setup/explain_analyze/q1_createIdx_recipeName.png" width="40%" height="40%">
+<img src="./images/gcp_setup/explain_analyze/q1_queryPerf_recipeName.png" width="100%" height="100%"> <br>
+We chose to look at this index because RecipeName is one of the columns being returned. Adding an index for the RecipeName column of Recipes resulted in a slightly faster query performance (8.66s to 7.76s).
 
-#### **Conclusion**: 
-OUR CONCLUSION AND WHICH INDICES WE'RE GOING TO USE
+### Conclusion: 
+For query 1, the addition of Instruction, Time, and RecipeName indexes all improved the runtime performance. Time and RecipeName showed the largest change which was around .90 seconds. While there was a decrease in time, it was not by much, so we conclude that the addition of indexes is not necessary, but could be slightly useful.
 
 
 ## Query 2 Indices:
 
 ### EXPLAIN ANALYZE (No Indices) 
-<img src="./images/gcp_setup/q2_no_indices.png" width="100%" height="100%">
-GIVE EXPLANATION/ANALYSIS
+<img src="./images/gcp_setup/explain_analyze/q2_no_indices.png" width="100%" height="100%">
+It should be the slowest one as there are no indices.
 
 ### EXPLAIN ANALYZE (RecipeId)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+<img src="./images/gcp_setup/explain_analyze/q2_createIdx_recipeid.png" width="100%" height="100%">
+<img src="./images/gcp_setup/explain_analyze/q2_queryPerf_recipeid.png" width="100%" height="100%"> <br>
+We chose to test this index because it is the primary key of the table RECIPES. We are wondering whether it is beneficial to use a BTree to index the primary key, as each primary key is unique and the total number is large. But it turns out that there is only a slight improvement and the time is still 0.02 second. We think it is probably because the primary key is already stored in the database in an efficient way. So additional BTree may not be the best choice for it.
 
-### EXPLAIN ANALYZE (CHOOSE ANOTHER INDEX)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (NumberOfSteps)
+<img src="./images/gcp_setup/explain_analyze/q2_createIdx_numSteps.png" width="100%" height="100%">
+<img src="./images/gcp_setup/explain_analyze/q2_queryPerf_numSteps.png" width="100%" height="100%"> <br>
+We chose to test this index because it is used in the conditional statement inside the WHERE clause of the query. We thought that since we are finding a range for the number of steps [0-10), it would be beneficial to use a BTree to index. The performance time with the NumberOfSteps index was 0.01 faster than without.
 
-### EXPLAIN ANALYZE (CHOOSE ONE MORE INDEX)
-INSERT IMAGE
-GIVE EXPLANATION/ANALYSIS
+### EXPLAIN ANALYZE (IngredientName)
+<img src="./images/gcp_setup/explain_analyze/q2_createIdx_IngredientName.png" width="100%" height="100%">
+<img src="./images/gcp_setup/explain_analyze/q2_queryPerf_IngredientName.png" width="100%" height="100%"> <br>
+We chose to test this index because the ingredient name is used in the HAVING clause statement of the query. Even though it is used within an aggregation, we are curious to see if improving the search of an ingredient name with an index would improve the overall runtime. The performance time with the IngredientName index was 0.01 faster than without.
 
-**Conclusion**: 
-OUR CONCLUSION AND WHICH INDICES WE'RE GOING TO USE
+### Conclusion: 
+For query 2, the addition of the NumberOfSteps index and IngredientName index showed the most improvement, but not by both. The addition of both of those indices, exclusively, only increased the runtime by 0.01. Our conclusion is that while the addition of those indices were helpful, they aren’t exactly necessary to use to improve the performance of the query 2.
+
+## Current Indices: 
+These are the current indices we have for our tables used in our two advanced queries: 
+<img src="./images/gcp_setup/explain_analyze/final_indices.png" width="100%" height="100%"> <br>
