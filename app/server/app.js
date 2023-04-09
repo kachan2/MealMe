@@ -101,6 +101,19 @@ app.get('/recipe-test', async (req, res) => {
   }
 });
 
+app.get('/inventory-test', async (req, res) => {
+  try {
+    const tabsQuery = pool.query('SELECT * FROM app_db.Inventory LIMIT 10;');
+    console.log('Inside Inventory query');
+    const x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+});
+
 // simple search route given a keyword
 app.get('/search/:query', async (req, res) => {
   try {
@@ -115,7 +128,44 @@ app.get('/search/:query', async (req, res) => {
   }
 })
 
+app.get('/inventory-select/:userid', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`SELECT IngredientName FROM Inventory WHERE UserId = '${req.params.userid}'`);
+    console.log('Inside inventory selection query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
 
+app.get('/inventory-insert/:userid/:ingredientname', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`INSERT INTO Inventory(UserId, IngredientName) VALUES ('${req.params.userid}', '${req.params.ingredientname}')`);
+    console.log('Inside inventory insertion query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+app.get('/inventory-delete/:userid/:ingredientname', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`DELETE FROM Inventory WHERE (UserId = '${req.params.userid}' AND IngredientName = '${req.params.ingredientname}')`);
+    console.log('Inside inventory deletion query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
