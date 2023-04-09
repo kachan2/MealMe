@@ -1,7 +1,13 @@
 const express = require('express');
 const mysql = require('promise-mysql');
 const bodyParser = require('body-parser');
+var cors = require('cors');
+
+
 const app = express();
+
+app.use(cors());
+
 // app.set('view engine', 'pug');
 app.enable('trust proxy');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,6 +69,7 @@ await createPool().then(async pool => {
 let pool;
 
 app.use(async (req, res, next) => {
+
   if (pool) {
     return next();
   }
@@ -80,11 +87,12 @@ app.get('/', async(req, res) => {
   res.send('Mealme');
 })
 
+// tests the connection to the database
 app.get('/recipe-test', async (req, res) => {
   try {
     const tabsQuery = pool.query('SELECT RecipeName FROM app_db.Recipes LIMIT 10;');
     console.log('Inside query');
-    let x = await tabsQuery;
+    const x = await tabsQuery;
     console.log(tabsQuery);
     res.json(x);
   } catch (err) {
@@ -93,23 +101,21 @@ app.get('/recipe-test', async (req, res) => {
   }
 });
 
-app.get('/searching-recipes', async (req, res) => {
+// simple search route given a keyword
+app.get('/search/:query', async (req, res) => {
   try {
-    const query = pool.query("INSERT HERE SOMEWHERE");
+    const tabsQuery = pool.query(`SELECT * FROM app_db.Recipes WHERE RecipeName LIKE '%${req.params.query}%' LIMIT 10;`);
     console.log('Inside search query');
-    let x = await query;
-    console.log(query);
+    let x = await tabsQuery;
+    console.log(tabsQuery);
     res.json(x);
-    // send this back to the front end somehow
   } catch (err) {
     console.error(err);
     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
   }
 })
 
-app.get('/check', (req, res) => {
-  res.send('Hello World!')
-});
+
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
