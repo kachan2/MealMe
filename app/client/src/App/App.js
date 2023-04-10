@@ -5,6 +5,7 @@ import Favorites from "../components/favorites";
 import Recommendations from "../components/recommendations";
 import Inventory from "../components/inventory";
 import Search from "../components/search";
+import RecipePage from '../components/Recipe/recipe';
 
 function App() {
   return (
