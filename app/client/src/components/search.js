@@ -56,7 +56,7 @@ const SearchBar = () => {
     </center>
     {isSubmitted && 
       Array.from(recipes).map((recipe) => {
-        return(<><ul key={recipe.RecipeId}>{recipe.RecipeName} Time: {recipe.Time} Steps: {recipe.NumberOfSteps}</ul></>);
+        return(<><ul key={recipe.RecipeId}><b>{recipe.RecipeName}</b><br></br> Time: {recipe.Time} Steps: {recipe.NumberOfSteps}</ul></>);
       })
     }
     </div>
@@ -137,7 +137,7 @@ const Filter = () => {
       {isSubmitted && 
         Array.from(recipes).map((recipe) => {
           if (recipe.RecipeName != 'RecipeName') {
-            return(<><ul key={recipe.RecipeId}>{recipe.RecipeName} Time: {recipe.Time} Steps: {recipe.NumberOfSteps}</ul></>);
+            return(<><ul key={recipe.RecipeId}><b>{recipe.RecipeName}</b><br></br> Time: {recipe.Time} Steps: {recipe.NumberOfSteps} Ingredients: {recipe.NumberOfIngredients}</ul></>);
           }
           return (<></>);
         })

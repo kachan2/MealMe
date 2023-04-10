@@ -124,6 +124,7 @@ app.get('/recommend', async(req, res) => {
                                   SEPARATOR '\n ' ) AS Instructions
                                   FROM Recipes r JOIN Steps s ON (r.RecipeId = s.Instruct)
                                   GROUP BY r.RecipeId
+                                  ORDER BY RAND()
                                   LIMIT 15;`);
     console.log('Inside recommendation query');
     let x = await tabsQuery;
@@ -149,10 +150,11 @@ app.get('/search/:query', async (req, res) => {
   }
 })
 
+// advanced query 2
 app.get('/find/:time/:steps', async (req, res) => {
   try {
     // add number of ingredients in the return!!!
-    const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps FROM app_db.Recipes WHERE Time <= ${req.params.time} AND NumberOfSteps <= ${req.params.steps} ORDER BY RAND() LIMIT 10;`);
+    const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, COUNT(IngredientName) AS NumberOfIngredients FROM app_db.Recipes NATURAL JOIN app_db.Requires WHERE Time <= ${req.params.time} AND NumberOfSteps <= ${req.params.steps} GROUP BY RecipeId HAVING COUNT(IngredientName) < 10 ORDER BY RAND() LIMIT 10;`);
     console.log('Inside search query');
     let x = await tabsQuery;
     console.log(tabsQuery);
