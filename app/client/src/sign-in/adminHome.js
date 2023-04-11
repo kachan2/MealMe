@@ -1,15 +1,14 @@
 import React, { Component, useEffect, useState } from "react";
 import ReactPaginate from 'react-paginate';
 import { useRef } from "react";
-export default function AdminHome({ userData }) {
 
+
+export default function AdminHome({ userData }) {
   //setting state
   const [data, setData] = useState([]);
   const [limit,setLimit]=useState(5);
   const [pageCount,setPageCount]=useState(1);
   const currentPage=useRef();
-
-
 
   useEffect(() => {
     currentPage.current=1;

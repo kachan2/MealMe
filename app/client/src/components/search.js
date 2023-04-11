@@ -10,7 +10,6 @@ const SearchBar = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-
   useEffect(() => {
     if (clicked) {
       axios.get(`http://localhost:8080/search/${toQuery}`, {

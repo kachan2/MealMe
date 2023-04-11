@@ -3,7 +3,6 @@ const mysql = require('promise-mysql');
 const bodyParser = require('body-parser');
 var cors = require('cors');
 
-
 const app = express();
 
 app.use(cors());
@@ -113,6 +112,50 @@ app.get('/inventory-test', async (req, res) => {
     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
   }
 });
+
+// --------------- user routes ---------------
+app.get('/login-user/:username/:password', async(req, res) => {
+  try {
+    const tabsQuery = pool.query(`SELECT * FROM app_db.Users WHERE Username = '${req.params.username}' AND Password = '${req.params.password}';`);
+    console.log('Inside Inventory query');
+    const x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+app.get('/signup-user/:username/:password', async(req, res) => {
+  try {
+    const id = pool.query('SELECT MAX(UserId) AS Id FROM app_db.Users;');
+    const u = await id;
+    const tabsQuery = pool.query(`INSERT INTO app_db.Users(UserId, Username, Password) VALUES (${u[0].Id} + 1,'${req.params.username}', '${req.params.password}')`);
+    console.log('Inside Inventory query');
+    const x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+app.get('/login-user/change-password/:username/:newpassword', async(req, res) => {
+  try {
+    const tabsQuery = pool.query(`UPDATE app_db.Users SET Password = '${req.params.newpassword}' WHERE Username = '${req.params.username}';`);
+    console.log('Inside Inventory query');
+    const x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json("good");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+
 
 
 // --------------- recommendations routes ---------------
