@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Favorites = () =>{
+const Favorites = ({token}) => {
   return (
     <div>
-      <center><h3>This is the favorites page</h3></center>
+      <center><h3>This is the favorites page for {token}</h3></center>
     </div>
   );
 }

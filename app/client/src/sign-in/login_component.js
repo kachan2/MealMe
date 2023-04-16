@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Login() {
+
+export default function Login({ setToken, setLogin }) {
   const navigate = useNavigate();
   // need to change the hierarchy to make it possible to use username throughout the app 
   const [username, setUsername] = useState("undefined");
@@ -21,13 +22,16 @@ export default function Login() {
           setError(true);
         } else {
           setError(false);
+          setToken(response.data[0].UserId);
+          console.log(response.data[0].UserId);
+          setLogin(true);
           navigate('/search', { replace: true });
         }
         console.log(error);
       });
       setClicked(false);
     }
-  }, [clicked, username, password, error, setClicked]);
+  }, [clicked, username, password, error, setClicked, navigate, setToken, setLogin]);
 
 
   function handleSubmit(e) {
