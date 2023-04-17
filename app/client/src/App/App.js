@@ -5,7 +5,7 @@ import Navbar from "../components/navbar";
 import Favorites from "../components/favorites";
 import Recommendations from "../components/recommendations";
 import Inventory from "../components/inventory";
-import Search from "../components/search";
+import SearchPage from "../components/search";
 import Login from "../sign-in/login_component";
 import SignUp from "../sign-in/signup_component";
 import ForgotPassword from "../sign-in/forgot_password"
@@ -33,7 +33,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<Recommendations/>} />
-        <Route path='/search' element={<Search/>} />
+        <Route path='/search' element={<SearchPage/>} />
         <Route path='/favorites' element={<Favorites token={token}/>} />
         <Route path='/inventory' element={<Inventory token={token}/>} />
       </Routes>
@@ -53,5 +53,13 @@ const App = () => {
     </div>
   );
 }
+
+// const App = () => {
+//   return (
+//     <div>
+//       <Search />
+//     </div>
+//   )
+// }
 
 export default App;

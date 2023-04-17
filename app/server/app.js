@@ -180,9 +180,13 @@ app.get('/recommend', async(req, res) => {
 })
 
 // --------------- recipes search page routes ---------------
-app.get('/search/:query', async (req, res) => {
+app.get('/search/:query/:time/:steps', async (req, res) => {
   try {
-    const tabsQuery = pool.query(`SELECT * FROM app_db.Recipes WHERE RecipeName LIKE '%${req.params.query}%' ORDER BY RAND() LIMIT 10;`);
+    const tabsQuery = pool.query(`SELECT * FROM app_db.Recipes WHERE 
+                                  RecipeName LIKE '%${req.params.query}%' 
+                                  AND Time <= ${req.params.time} 
+                                  AND NumberOfSteps <= ${req.params.steps}
+                                  ORDER BY RAND() LIMIT 10;`);
     console.log('Inside search query');
     let x = await tabsQuery;
     console.log(tabsQuery);
@@ -194,19 +198,19 @@ app.get('/search/:query', async (req, res) => {
 })
 
 // advanced query 2
-app.get('/find/:time/:steps', async (req, res) => {
-  try {
-    // add number of ingredients in the return!!!
-    const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, COUNT(IngredientName) AS NumberOfIngredients FROM app_db.Recipes NATURAL JOIN app_db.Requires WHERE Time <= ${req.params.time} AND NumberOfSteps <= ${req.params.steps} GROUP BY RecipeId HAVING COUNT(IngredientName) < 10 ORDER BY RAND() LIMIT 10;`);
-    console.log('Inside search query');
-    let x = await tabsQuery;
-    console.log(tabsQuery);
-    res.json(x);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
-  }
-})
+// app.get('/search/:query/:time/:steps', async (req, res) => {
+//   try {
+//     // add number of ingredients in the return!!!
+//     const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, COUNT(IngredientName) AS NumberOfIngredients FROM app_db.Recipes NATURAL JOIN app_db.Requires WHERE RecipeName LIKE '%${req.params.query}%' AND Time <= ${req.params.time} AND NumberOfSteps <= ${req.params.steps} GROUP BY RecipeId HAVING COUNT(IngredientName) < 10 ORDER BY RAND() LIMIT 10;`);
+//     console.log('Inside search query');
+//     let x = await tabsQuery;
+//     console.log(tabsQuery);
+//     res.json(x);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+//   }
+// })
 
 // --------------- inventory page routes ---------------
 app.get('/inventory-select/:userid', async (req, res) => {
