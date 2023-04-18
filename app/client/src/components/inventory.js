@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react'
 import "./inventory.css";
 import axios from "axios";
 
-const Inventory = () =>{
+const Inventory = ({token}) =>{
 
-  const userid = 1; // hardcoded to user andreaz3 for now
 
   const [tags, setTags] = useState([])
   useEffect(() => {
-    axios.get(`http://localhost:8080/inventory-select/${userid}`, {
+    axios.get(`http://localhost:8080/inventory-select/${token}`, {
         mode: "no-cors"
       }).then((response) => {
         console.log(response.data);
@@ -24,7 +23,7 @@ const Inventory = () =>{
       const value = e.target.value.trim().toLowerCase()
       if(!value) return
     
-      axios.get(`http://localhost:8080/inventory-insert/${userid}/${value}`, {
+      axios.get(`http://localhost:8080/inventory-insert/${token}/${value}`, {
         mode: "no-cors"
       }).then((response) => {
         setTags([...tags, value])
@@ -34,7 +33,7 @@ const Inventory = () =>{
 
   function removeTag(tag_name, index){
 
-    axios.get(`http://localhost:8080/inventory-delete/${userid}/${tag_name}`, {
+    axios.get(`http://localhost:8080/inventory-delete/${token}/${tag_name}`, {
       mode: "no-cors"
     }).then((response) => {
       setTags(tags.filter((el, i) => i !== index))
