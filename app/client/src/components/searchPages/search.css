@@ -10,6 +10,7 @@ input[type=text] {
   border: none;
   border-radius: 1.625rem;
   padding: 0 3.5rem 0 1.5rem;
+  margin-bottom: 0.75cm;
   font-size: 1rem;
   align-items: center;
 }
@@ -36,7 +37,6 @@ button {
 }
 
 .filter {
-    
   position: absolute;
   width: 149px;
   height: 123px;
@@ -81,10 +81,32 @@ h4 {
   background:white;
 }
 
-.results{
-  position: absolute;
-  width: 50%;
-  height: 75%;
-  left: 500px;
-  top: 100px;
-}
+
+/* .rcorners {
+    border-radius: 10px;
+    border: 2px solid #5D5A88;
+    width: 90%;
+    height: 50px;
+    text-align:left;
+    margin-bottom: 10px;
+    padding: 0 0rem 1.5 1.5rem;
+  }
+  
+  h2{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: 'Courier New', Courier, monospace
+  }
+  
+  p{
+    margin-top: 1px;
+    font-family: 'Courier New', Courier, monospace
+  }
+
+  .results{
+    position: absolute;
+    width: 50%;
+    height: 75%;
+    left: 500px;
+    top: 100px;
+  } */
