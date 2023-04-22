@@ -6,8 +6,9 @@ import "./search.css";
 import "./scroller2.css";
 import StepSlider from "../functionalities/stepSlider.js";
 import TimeSlider from "../functionalities/timeSlider.js";
-import DropDown from "../functionalities/dropdown.js";
+import MultipleSelectCheckmarks from "../functionalities/dropdown.js";
 import Recipe from "./recipe.js";
+import LoadingSpinner from "../functionalities/spinner";
 
 const SearchBar = ({inputs, setInputs, handleSubmit}) => {
 
@@ -41,11 +42,7 @@ const SearchBar = ({inputs, setInputs, handleSubmit}) => {
 }
 
 
-const Filter = ({setTime, setSteps, easy, setEasy, handleSubmit}) => {
-
-  const handleCheck = () => {
-    setEasy(!easy);
-  };
+const Filter = ({tag, setTags, setTime, setSteps, handleSubmit}) => {
 
   return (
     <div>
@@ -54,17 +51,10 @@ const Filter = ({setTime, setSteps, easy, setEasy, handleSubmit}) => {
         <h4>Filters</h4>
         <div className = "easy">
           <form onSubmit = {handleSubmit}>
-          <input type = "checkbox"
-                  id = "easy"
-                  name = "easy"
-                  value = {easy}
-                  checked = {easy}
-                  onChange = {handleCheck}
-                />
-          <label htmlFor="easy">Easy Recipes</label> <br></br><br></br>
           <StepSlider setSteps={setSteps} /> <br></br>
-          <TimeSlider setTime={setTime} />
-          <br></br><center><input type="submit" /></center>
+          <TimeSlider setTime={setTime} /> <br></br> <br/>
+          <MultipleSelectCheckmarks tag={tag} setTags={setTags}/> <br/><br/>
+          <input className="search-button" type="submit" />
           </form>
          </div> 
       </div>
@@ -79,9 +69,9 @@ const Filter = ({setTime, setSteps, easy, setEasy, handleSubmit}) => {
 const SearchPage = ({token}) => {
     // attributes
     const [inputs, setInputs] = useState("");
-    const [easy, setEasy] = useState(false);
     const [time, setTime] = useState(10000);
     const [steps, setSteps] = useState(10000);
+    const [tag, setTags] = useState([]);
 
     // display values
     const [clicked, setClicked] = useState(false);
@@ -93,19 +83,25 @@ const SearchPage = ({token}) => {
 
     useEffect(() => {
         if (clicked) { 
+          console.log(tag);
           console.log(inputs.query);
-          if (inputs.query == undefined) {
-            axios.get(`http://localhost:8080/search/${time}/${steps}`, {
-              mode: "no-cors"
-            }).then((response) => {
-              setRecipes(response.data);
-            });
+          if (tag.length < 1) {
+            axios.get(`http://localhost:8080/search2`, {
+            params: {
+              query: inputs.query || "",
+              time: time, 
+              steps: steps,
+            }
+          }).then((response) => {setRecipes(response.data);})
           } else {
-            axios.get(`http://localhost:8080/search/${inputs.query}/${time}/${steps}`, {
-              mode: "no-cors"
-            }).then((response) => {
-              setRecipes(response.data);
-            });
+            axios.get(`http://localhost:8080/search`, {
+            params: {
+              query: inputs.query || "",
+              time: time, 
+              steps: steps,
+              tag: JSON.stringify(tag)
+            }
+          }).then((response) => {setRecipes(response.data);})
           }
           setClicked(false);
         }
@@ -114,10 +110,6 @@ const SearchPage = ({token}) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(inputs);
-        if(easy) {
-          setTime(10);
-          setSteps(10);
-        }
         setIsSubmitted(true);
         setClicked(true);
     }
@@ -126,10 +118,10 @@ const SearchPage = ({token}) => {
     return (
         <div className="recipe">
         <SearchBar style="margin-bottom:3cm;" inputs={inputs} setInputs={setInputs} handleSubmit={handleSubmit}/>  
-        <Filter easy={easy} setEasy={setEasy} setTime={setTime} setSteps={setSteps} handleSubmit={handleSubmit}/>
+        <Filter tag={tag} setTags={setTags} setTime={setTime} setSteps={setSteps} handleSubmit={handleSubmit}/>
         <div className="scroll">
           <ScrollView>
-            {isSubmitted && 
+            {isSubmitted && recipes &&
                 Array.from(recipes).map((recipe) => {
                   if (recipe.RecipeName !== 'RecipeName') {
                     return(
@@ -149,7 +141,6 @@ const SearchPage = ({token}) => {
             }
           </ScrollView>
         </div>
-        {/*  */}
         </div>
     )
 }

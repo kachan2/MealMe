@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView} from 'react-native';
 import axios from "axios";
-import Recipe from "./searchPages/recipe.js";
+
+import LoadingSpinner from './functionalities/spinner.js';
+import Recipe from "./searchPages/recipe2.js";
 import "./scroller.css";
 
 const Recommendations = ({token}) =>{
@@ -26,7 +28,7 @@ const Recommendations = ({token}) =>{
     <div className="scroll">
       <br></br><br></br>
       <ScrollView>
-    {
+    {recipes ?
       Array.from(recipes).map((recipe) => {
         if (recipe.RecipeName !== "RecipeName") {
           return(<>
@@ -35,6 +37,8 @@ const Recommendations = ({token}) =>{
         }
         return(<></>)
       })
+      :
+      <LoadingSpinner className="spinner"/>
     }
     </ScrollView>
     </div>

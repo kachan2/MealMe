@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import "./recipe.css";
+import "./recipe2.css";
 import "./like.css";
 
 const Recipe = ({recipeid, name, time, steps, instruction, userid}) => {
@@ -40,15 +40,6 @@ const Recipe = ({recipeid, name, time, steps, instruction, userid}) => {
             <label className="box-close" htmlFor="acc-close"></label>
             <div className="box-content" id={recipeid}>
                 <p><b>Time:</b> {time} &nbsp; <b>Number of Steps:</b> {steps} &nbsp; </p>
-                <p><u>Instructions: </u></p>
-                {   instruction && 
-                    Array.from(instruction.split(/\r?\n/)).map((i, idx) => {
-                        return (
-                            <p>{idx + 1}. &nbsp; {i}</p>
-                        );
-                    })
-                    
-                }
             </div>
             </section>
             <input key={recipeid} type="radio" name="accordion" id="acc-close" onClick={()=> console.log(name)}/>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./login.css";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -38,11 +39,10 @@ export default function SignUp() {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-inner">
+    <div className="login-page">
         <form onSubmit={handleSubmit}>
-          <h3 style={{marginBottom: "1em"}}> Sign Up</h3>
-          <div className="mb-3">
+          <h2 style={{marginBottom: "1em"}}> Sign Up</h2>
+          <div className="mb-1">
             <label>Username &nbsp;</label>
             <input
               type="text"
@@ -53,7 +53,7 @@ export default function SignUp() {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
             <label>Password &nbsp;</label>
             <input
               type="text"
@@ -64,28 +64,13 @@ export default function SignUp() {
             />
           </div>
 
-          <div className="mb-3">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                style={{marginBottom: "3em"}}
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1" >
-                Remember me
-              </label>
-            </div>
-          </div>
-
           <div className="d-grid">
-            <input style={{marginBottom: "1em"}} type="submit" className="btn btn-primary" />
+            <input style={{marginBottom: "1em"}} type="submit" className="login-button" />
           </div>
           <p className="forgot-password text-right">
-            Already registered <a href="/login">sign in?</a>
+            Already registered? <a href="/login">Sign In</a>
           </p>
         </form>
       </div>
-    </div>
   );
 }

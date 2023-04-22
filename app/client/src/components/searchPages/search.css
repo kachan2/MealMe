@@ -28,8 +28,8 @@ button {
 .eclipse{
   border-radius: 20%;
   position: absolute;
-  width: 200px;
-  height: 300px;
+  width: 300px;
+  height: 450px;
   left: 80px;
   top: 255px;
   background-color:transparent;
@@ -38,7 +38,7 @@ button {
 
 .filter {
   position: absolute;
-  width: 149px;
+  width: 500px;
   height: 123px;
   left: 54px;
   top: 255px;
@@ -48,13 +48,13 @@ h4 {
   position: absolute;
   width: 55px;
   height: 18px;
-  left: 104px;
+  left: 145px;
   top: 0px;
 
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 18px;
   
   color: #5D5A88;
@@ -82,31 +82,35 @@ h4 {
 }
 
 
-/* .rcorners {
-    border-radius: 10px;
-    border: 2px solid #5D5A88;
-    width: 90%;
-    height: 50px;
-    text-align:left;
-    margin-bottom: 10px;
-    padding: 0 0rem 1.5 1.5rem;
-  }
-  
-  h2{
-    margin-top: 0;
-    margin-bottom: 0;
-    font-family: 'Courier New', Courier, monospace
-  }
-  
-  p{
-    margin-top: 1px;
-    font-family: 'Courier New', Courier, monospace
-  }
+.button{
+  position: absolute;
+  left: 500px;
+  align-items:center;
+}
 
-  .results{
-    position: absolute;
-    width: 50%;
-    height: 75%;
-    left: 500px;
-    top: 100px;
-  } */
+.search-button {
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #ddd5ff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px #999;
+  margin-left: 70px;
+  margin-right:-50px; 
+}
+
+
+
+.search-button:hover {background-color: #cdc1ff}
+
+.search-button:active {
+  background-color: #cdc1ff;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}

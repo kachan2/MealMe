@@ -1,65 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, redirect } from "react-router-dom";
 import './App.css';
-import Navbar from "../components/navbar";
+import Navbar from "../components/functionalities/navbar";
 import Favorites from "../components/favorites";
 import Recommendations from "../components/recommendations";
 import Inventory from "../components/inventory";
 import SearchPage from "../components/searchPages/search";
 import Login from "../sign-in/login_component";
 import SignUp from "../sign-in/signup_component";
-import ForgotPassword from "../sign-in/forgot_password"
+import ForgotPassword from "../sign-in/forgot_password";
+import UserHome from "../sign-in/userHome";
 
 const App = () => {
   const [token, setToken] = useState();
-  const [login, setLogin] = useState(false);
+  const [user, setUser] = useState();
+  const [found, setFound] = useState(localStorage.getItem("user"));
+
+
 
   useEffect(() => {
-    if (!token) {
-      setLogin(false);
-    } else {
-      setLogin(true);
-    }
+      if (found != undefined && user == undefined && token == undefined) {
+        const foundUser = JSON.parse(found);
+        setUser(foundUser);
+        setToken(foundUser[0].UserId);
+        console.log(setToken)
+      }
+    
+  })
 
-  }, [token, setLogin])
-
-  
-
-  return (
+  return (      
     <div>
-    {
-      login ? <div> 
-      <Router>
+    <Router>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Recommendations token={token}/>} />
+        <Route path='/' element={<Login setToken={setToken} setUser={setUser} user={user}/>} />
+        <Route path='/sign-up' element={<SignUp/>} />
+        <Route path='/forgot-password' element={<ForgotPassword/>} />
+        <Route path='/profile' element={<UserHome token={token}/>} />
+        <Route path='/recommend' element={<Recommendations token={token}/>} />
         <Route path='/search' element={<SearchPage token={token}/>} />
         <Route path='/favorites' element={<Favorites token={token}/>} />
         <Route path='/inventory' element={<Inventory token={token}/>} />
       </Routes>
-      </Router> </div> 
-      :
-      <div>
-        <Router>
-          <Routes>
-            <Route path='/' element={<Login setToken={setToken} setLogin={setLogin}/>} />
-            <Route path='/sign-up' element={<SignUp/>} />
-            <Route path='/forgot-password' element={<ForgotPassword/>} />
-            <Route path='/login' element={<Login setToken={setToken} setLogin={setLogin}/>} />
-          </Routes>
-        </Router>
-      </div> 
-    }
-    </div>
+    </Router>
+  </div> 
   );
 }
 
-// const App = () => {
-//   return (
-//     <div>
-//       <Search />
-//     </div>
-//   )
-// }
 
 export default App;
