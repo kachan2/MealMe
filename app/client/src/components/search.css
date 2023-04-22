@@ -1,6 +1,16 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
 }
+/* This is for the favorites button*/
+button:hover {
+  cursor: pointer;
+}
+.favorite-button {
+  border-radius: 20%;
+  background-color: #a18fc6;
+  /* padding-bottom: 50px; */
+  float: right;
+}
 
 input[type=text] {
   width: 50%;

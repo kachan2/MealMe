@@ -266,21 +266,17 @@ module.exports = server;
 
 
 // --------------- favorites page routes ---------------
-app.get('/recommend', async(req, res) => {
+app.post('/add-to-favorites', async (req, res) => {
+  const { userId, recipeId } = req.body;
   try {
-    const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction 
-                                  ORDER BY OrderNumber ASC 
-                                  SEPARATOR '\n ' ) AS Instructions
-                                  FROM Recipes r JOIN Steps s ON (r.RecipeId = s.Instruct)
-                                  GROUP BY r.RecipeId
-                                  ORDER BY RAND()
-                                  LIMIT 15;`);
-    console.log('Inside recommendation query');
-    let x = await tabsQuery;
+    const query = `INSERT INTO Favorites (UserId, RecipeId) VALUES ('${userId}', '${recipeId}')`;
+    const tabsQuery = pool.query(query);
+    const x = await tabsQuery;
     console.log(tabsQuery);
     res.json(x);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+    res.status(500).send('Unable to add recipe to favorites. Please check the application logs for more details.').end();
   }
-})
+  console.log("added to favorites table!")
+});
