@@ -172,13 +172,25 @@ app.get('/get-user/:token', async(req, res) => {
 // --------------- recommendations routes ---------------
 // advanced query 1
 // change this to call the stored procedure instead!!!
-app.get('/recommend', async(req, res) => {
+// app.get('/recommend', async(req, res) => {
+//   try {
+//     const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps
+//                                   FROM Recipes r
+//                                   GROUP BY r.RecipeId
+//                                   ORDER BY RAND()
+//                                   LIMIT 20;`);
+//     console.log('Inside recommendation query');
+//     let x = await tabsQuery;
+//     console.log(tabsQuery);
+//     res.json(x);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+//   }
+// })
+app.get('/recommend/:userid', async(req, res) => {
   try {
-    const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps
-                                  FROM Recipes r
-                                  GROUP BY r.RecipeId
-                                  ORDER BY RAND()
-                                  LIMIT 20;`);
+    const tabsQuery = pool.query(`CALL recommendRecipes ('${req.params.userid}');`);
     console.log('Inside recommendation query');
     let x = await tabsQuery;
     console.log(tabsQuery);
@@ -189,13 +201,13 @@ app.get('/recommend', async(req, res) => {
   }
 })
 
+
 //--------------- recipes search page routes ---------------
 app.get('/search', async (req, res) => {
   const arr = JSON.parse(req.query['tag']);
   const newString = arr.length === 0 ? "" : "'" + arr.join("','") + "'";
   try {
-    const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction
-                                                                                                ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
+    const tabsQuery = pool.query(`SELECT DISTINCT RecipeId, RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
                                   FROM (SELECT *
                                           FROM (SELECT * 
                                                   FROM Recipes WHERE RecipeName LIKE '%${req.query['query']}%' AND Time < ${req.query['time']} AND NumberOfSteps < ${req.query['steps']}
@@ -243,8 +255,7 @@ app.get('/favorites-select/:userid', async (req, res) => {
                                   ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
                                   FROM (SELECT DISTINCT * FROM Recipes NATURAL JOIN Favorites WHERE UserId = '${req.params.userid}')r JOIN Steps s ON (r.RecipeId = s.Instruct) 
                                   GROUP BY r.RecipeId 
-                                  ORDER BY RAND()
-                                  LIMIT 15;`);
+                                  ORDER BY r.RecipeId;`);
     console.log('Inside favorites selection query');
     let x = await tabsQuery;
     console.log(tabsQuery);

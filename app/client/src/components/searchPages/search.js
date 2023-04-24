@@ -121,7 +121,7 @@ const SearchPage = ({token}) => {
         <Filter tag={tag} setTags={setTags} setTime={setTime} setSteps={setSteps} handleSubmit={handleSubmit}/>
         <div className="scroll">
           <ScrollView>
-            {isSubmitted && recipes &&
+            {isSubmitted &&
                 Array.from(recipes).map((recipe) => {
                   if (recipe.RecipeName !== 'RecipeName') {
                     return(

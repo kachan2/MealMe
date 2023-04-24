@@ -7,12 +7,12 @@
     }
   }
   .loading-spinner {
-    width: 30px;
-    height: 30px;
+    width: 100px;
     margin-left: 500px;
-    height: 50%;
-    border: 10px solid #f3f3f3; /* Light grey */
-    border-top: 10px solid #383636; /* Black */
+    margin-top: 100px;
+    height: 100px;
+    border: 20px solid lightgray; /* Light grey */
+    border-top: 20px solid #383636; /* Black */
     border-radius: 50%;
-    animation: spinner 1.5s linear infinite;
+    animation: spinner 1s linear infinite;
   }

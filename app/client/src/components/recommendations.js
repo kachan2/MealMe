@@ -3,20 +3,20 @@ import {ScrollView} from 'react-native';
 import axios from "axios";
 
 import LoadingSpinner from './functionalities/spinner.js';
-import Recipe from "./searchPages/recipe2.js";
+import Recipe from "./searchPages/recipe.js";
 import "./scroller.css";
 
 const Recommendations = ({token}) =>{
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState();
   const [loaded, setLoaded] = useState(true);
 
 
   useEffect(()=> {
-    if (loaded) {
-      axios.get(`http://localhost:8080/recommend`, {
+    if (loaded && token != undefined) {
+      axios.get(`http://localhost:8080/recommend/${token}`, {
         mode: "no-cors"
       }).then((response) => {
-        setRecipes(response.data);
+        setRecipes(response.data[0]);
       });
       setLoaded(false);
     }
@@ -28,11 +28,12 @@ const Recommendations = ({token}) =>{
     <div className="scroll">
       <br></br><br></br>
       <ScrollView>
-    {recipes ?
+    {recipes && token ?
       Array.from(recipes).map((recipe) => {
         if (recipe.RecipeName !== "RecipeName") {
+          console.log(recipe);
           return(<>
-            <Recipe key={recipe.RecipeId} recipeid={recipe.RecipeId} name={recipe.RecipeName} time={recipe.Time} steps={recipe.NumberOfSteps} userid={token}></Recipe>
+            <Recipe key={recipe.RecipeId} recipeid={recipe.RecipeId} name={recipe.RecipeName} time={recipe.Time} steps={recipe.NumberOfSteps} userid={token} instruction={recipe.Instructions}></Recipe>
           </>);
         }
         return(<></>)
