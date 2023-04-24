@@ -170,15 +170,15 @@ app.get('/get-user/:token', async(req, res) => {
 
 
 // --------------- recommendations routes ---------------
-// advanced query 1
-// change this to call the stored procedure instead!!!
-app.get('/recommend', async(req, res) => {
+// stored procedure
+app.get('/recommend/:userid', async(req, res) => {
   try {
-    const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps
-                                  FROM Recipes r
-                                  GROUP BY r.RecipeId
-                                  ORDER BY RAND()
-                                  LIMIT 20;`);
+    // const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps
+    //                               FROM Recipes r
+    //                               GROUP BY r.RecipeId
+    //                               ORDER BY RAND()
+    //                               LIMIT 20;`);
+    const tabsQuery = pool.query(`CALL recommendRecipes ('${req.params.userid}');`);
     console.log('Inside recommendation query');
     let x = await tabsQuery;
     console.log(tabsQuery);

@@ -13,7 +13,8 @@ const Recommendations = ({token}) =>{
 
   useEffect(()=> {
     if (loaded) {
-      axios.get(`http://localhost:8080/recommend`, {
+      // calls stored procedure
+      axios.get(`http://localhost:8080/recommend/${token}`, {
         mode: "no-cors"
       }).then((response) => {
         setRecipes(response.data);
