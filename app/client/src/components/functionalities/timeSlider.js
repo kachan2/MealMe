@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import "./styles.css";
 
 function valueLabelFormat(value) {
     return `${value}`;
   }
   
 export default function TimeSlider({setTime}) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(200);
 
   // updates map when slider is changed
   const handleChange = (event, newValue) => {
@@ -18,8 +19,8 @@ export default function TimeSlider({setTime}) {
   };
 
   return (
-    <Box sx={{ width: 150 }}>
-      Time: {value} minutes
+    <Box sx={{ width: 250 }}>
+     <p className="filter-components">Time: {value} minutes</p>
       <Slider
       // slider attributes
         value={value}

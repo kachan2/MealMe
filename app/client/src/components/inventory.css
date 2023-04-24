@@ -8,7 +8,7 @@ body{
     border: 1px solid #9e5dff;
     padding: .5em;
     border-radius: 3px;
-    width: min(80vw, 600px);
+    width: 100%;
     margin-top: 1em;
     display: flex;
     align-items: center;

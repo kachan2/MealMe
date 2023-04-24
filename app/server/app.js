@@ -117,7 +117,7 @@ app.get('/inventory-test', async (req, res) => {
 app.get('/login-user/:username/:password', async(req, res) => {
   try {
     const tabsQuery = pool.query(`SELECT * FROM app_db.Users WHERE Username = '${req.params.username}' AND Password = '${req.params.password}';`);
-    console.log('Inside Inventory query');
+    console.log('Inside user query');
     const x = await tabsQuery;
     console.log(tabsQuery);
     res.json(x);
@@ -132,7 +132,7 @@ app.get('/signup-user/:username/:password', async(req, res) => {
     const id = pool.query('SELECT MAX(UserId) AS Id FROM app_db.Users;');
     const u = await id;
     const tabsQuery = pool.query(`INSERT INTO app_db.Users(UserId, Username, Password) VALUES (${u[0].Id} + 1,'${req.params.username}', '${req.params.password}')`);
-    console.log('Inside Inventory query');
+    console.log('Inside user query');
     const x = await tabsQuery;
     console.log(tabsQuery);
     res.json(x);
@@ -145,7 +145,7 @@ app.get('/signup-user/:username/:password', async(req, res) => {
 app.get('/login-user/change-password/:username/:newpassword', async(req, res) => {
   try {
     const tabsQuery = pool.query(`UPDATE app_db.Users SET Password = '${req.params.newpassword}' WHERE Username = '${req.params.username}';`);
-    console.log('Inside Inventory query');
+    console.log('Inside user query');
     const x = await tabsQuery;
     console.log(tabsQuery);
     res.json("good");
@@ -155,20 +155,31 @@ app.get('/login-user/change-password/:username/:newpassword', async(req, res) =>
   }
 })
 
-
+app.get('/get-user/:token', async(req, res) => {
+  try {
+    const tabsQuery = pool.query(`SELECT * FROM Users WHERE UserId = ${req.params.token}`);
+    console.log('Inside user query');
+    const x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
 
 
 // --------------- recommendations routes ---------------
-// advanced query 1
-app.get('/recommend', async(req, res) => {
+
+// stored procedure
+app.get('/recommend/:userid', async(req, res) => {
   try {
-    const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction 
-                                  ORDER BY OrderNumber ASC 
-                                  SEPARATOR '\n ' ) AS Instructions
-                                  FROM Recipes r JOIN Steps s ON (r.RecipeId = s.Instruct)
-                                  GROUP BY r.RecipeId
-                                  ORDER BY RAND()
-                                  LIMIT 15;`);
+    // const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps
+    //                               FROM Recipes r
+    //                               GROUP BY r.RecipeId
+    //                               ORDER BY RAND()
+    //                               LIMIT 20;`);
+    const tabsQuery = pool.query(`CALL recommendRecipes ('${req.params.userid}');`);
     console.log('Inside recommendation query');
     let x = await tabsQuery;
     console.log(tabsQuery);
@@ -179,14 +190,21 @@ app.get('/recommend', async(req, res) => {
   }
 })
 
-// --------------- recipes search page routes ---------------
-app.get('/search/:query/:time/:steps', async (req, res) => {
+
+//--------------- recipes search page routes ---------------
+app.get('/search', async (req, res) => {
+  const arr = JSON.parse(req.query['tag']);
+  const newString = arr.length === 0 ? "" : "'" + arr.join("','") + "'";
   try {
-    const tabsQuery = pool.query(`SELECT * FROM app_db.Recipes WHERE 
-                                  RecipeName LIKE '%${req.params.query}%' 
-                                  AND Time <= ${req.params.time} 
-                                  AND NumberOfSteps <= ${req.params.steps}
-                                  ORDER BY RAND() LIMIT 10;`);
+    const tabsQuery = pool.query(`SELECT DISTINCT RecipeId, RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
+                                  FROM (SELECT *
+                                          FROM (SELECT * 
+                                                  FROM Recipes WHERE RecipeName LIKE '%${req.query['query']}%' AND Time < ${req.query['time']} AND NumberOfSteps < ${req.query['steps']}
+                                                )r NATURAL JOIN (SELECT * FROM Tags NATURAL JOIN Describes WHERE TagDescription IN (${newString}))t)r2 
+                                  JOIN Steps s ON (r2.RecipeId = s.Instruct) 
+                                  GROUP BY r2.RecipeId 
+                                  ORDER BY RAND()
+                                  LIMIT 15;`);
     console.log('Inside search query');
     let x = await tabsQuery;
     console.log(tabsQuery);
@@ -197,20 +215,72 @@ app.get('/search/:query/:time/:steps', async (req, res) => {
   }
 })
 
-// advanced query 2
-// app.get('/search/:query/:time/:steps', async (req, res) => {
-//   try {
-//     // add number of ingredients in the return!!!
-//     const tabsQuery = pool.query(`SELECT RecipeName, Time, NumberOfSteps, COUNT(IngredientName) AS NumberOfIngredients FROM app_db.Recipes NATURAL JOIN app_db.Requires WHERE RecipeName LIKE '%${req.params.query}%' AND Time <= ${req.params.time} AND NumberOfSteps <= ${req.params.steps} GROUP BY RecipeId HAVING COUNT(IngredientName) < 10 ORDER BY RAND() LIMIT 10;`);
-//     console.log('Inside search query');
-//     let x = await tabsQuery;
-//     console.log(tabsQuery);
-//     res.json(x);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
-//   }
-// })
+app.get('/search2', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction
+                                                                                                ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
+                                  FROM (SELECT * 
+                                      FROM Recipes 
+                                      WHERE RecipeName LIKE '%${req.query['query']}%' AND Time < ${req.query['time']} AND NumberOfSteps < ${req.query['steps']})r 
+                                  JOIN Steps s ON (r.RecipeId = s.Instruct) 
+                                  GROUP BY r.RecipeId 
+                                  ORDER BY RAND()
+                                  LIMIT 15;`);
+    console.log('Inside search query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+
+// --------------- favorites page routes ---------------
+app.get('/favorites-select/:userid', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`SELECT RecipeId, RecipeName, Time, NumberOfSteps, GROUP_CONCAT(Instruction
+                                  ORDER BY OrderNumber ASC SEPARATOR '\n ' ) AS Instructions 
+                                  FROM (SELECT DISTINCT * FROM Recipes NATURAL JOIN Favorites WHERE UserId = '${req.params.userid}')r JOIN Steps s ON (r.RecipeId = s.Instruct) 
+                                  GROUP BY r.RecipeId 
+                                  ORDER BY r.RecipeId;`);
+    console.log('Inside favorites selection query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+app.get('/favorites-insert/:userid/:recipeid', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`INSERT INTO Favorites(UserId, RecipeId) VALUES ('${req.params.userid}', '${req.params.recipeid}')`);
+    console.log('Inside favorites insertion query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
+app.get('/favorites-delete/:userid/:recipeid', async (req, res) => {
+  try {
+    const tabsQuery = pool.query(`DELETE FROM Favorites WHERE (UserId = '${req.params.userid}' AND RecipeId = '${req.params.recipeid}')`);
+    console.log('Inside favorites deletion query');
+    let x = await tabsQuery;
+    console.log(tabsQuery);
+    res.json(x);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
+  }
+})
+
 
 // --------------- inventory page routes ---------------
 app.get('/inventory-select/:userid', async (req, res) => {
@@ -251,6 +321,7 @@ app.get('/inventory-delete/:userid/:ingredientname', async (req, res) => {
     res.status(500).send('Unable to load page. Please check the application logs for more details.').end();
   }
 })
+
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
