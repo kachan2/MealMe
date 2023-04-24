@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./login.css";
 
 export default function ForgotPassword () {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function ForgotPassword () {
           mode: "no-cors", 
         }).then((response) => {
             setPassword(newpassword);
-            navigate('/login', { replace: true });
+            navigate('/', { replace: true });
         });
         setClicked(false);
       }
@@ -32,11 +33,10 @@ export default function ForgotPassword () {
     }
   
     return (
-      <div className="auth-wrapper">
-        <div className="auth-inner">
+      <div className="login-page">
           <form onSubmit={handleSubmit}>
-            <h3 style={{marginBottom: "1em"}}> Set New Password</h3>
-            <div className="mb-3">
+            <h2 style={{marginBottom: "1em"}}> Set New Password</h2>
+            <div className="mb-1">
               <label>Username &nbsp;</label>
               <input
                 type="text"
@@ -47,7 +47,7 @@ export default function ForgotPassword () {
               />
             </div>
   
-            <div className="mb-3">
+            <div className="mb-2">
               <label>Password &nbsp;</label>
               <input
                 type="text"
@@ -59,13 +59,12 @@ export default function ForgotPassword () {
             </div>
   
             <div className="d-grid">
-              <input style={{marginBottom: "1em"}} type="submit" className="btn btn-primary" />
+              <input style={{marginBottom: "1em"}} type="submit" className="login-button" />
             </div>
             <p className="forgot-password text-right">
-              Already registered <a href="/login">sign in?</a>
+              Already registered? <a href="/">sign in</a>
             </p>
           </form>
         </div>
-      </div>
     );
 }
