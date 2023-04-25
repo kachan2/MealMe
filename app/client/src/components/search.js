@@ -124,10 +124,10 @@ const SearchPage = () => {
                 Time: {recipe.Time}<br />
                 Steps: {recipe.NumberOfSteps}<br />
                 Ingredients: {recipe.NumberOfIngredients}
-                <button 
+                {/* <button 
                   onClick={() => {
                     console.log('Favorite button clicked!');
-                    axios.post(`http://localhost:8080/favorites/${recipe.RecipeId}`)
+                    axios.get(`http://localhost:8080/favorites/${recipe.RecipeId}`)
                       .then(response => console.log(`Added ${recipe.RecipeName} to favorites!`))
                       .catch(error => console.error(error));
                   }}
@@ -135,7 +135,7 @@ const SearchPage = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffffff" width="20" height="20">
                     <path d="M12 21.35l-1.87-1.69C4.9 14.58 2 11.53 2 7.97 2 5.38 4.09 3.3 6.63 3.05c2.63-.25 5.11 1.37 5.37 3.98.26-2.61 2.74-4.23 5.37-3.98 2.54.24 4.63 2.32 4.63 4.92 0 3.56-2.9 6.61-8.13 11.69L12 21.35z"/>
                   </svg>
-                </button>
+                </button> */}
               </ul></>);}
             return (<></>);
             })

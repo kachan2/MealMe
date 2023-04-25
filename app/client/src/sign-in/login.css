@@ -1,0 +1,136 @@
+.login-page{
+    border-radius: 20%;
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    left: 35%;
+    top: 10%;
+    background-color:transparent;
+    border: 2px solid #5D5A88;
+}
+
+h2 {
+    text-align: center;
+    position: relative;
+    padding-top: 5%;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 18px;
+    
+    color: #5D5A88;
+}
+
+.sub-heading {
+    text-align: center;
+    position: relative;
+    top: -10px;
+    width: 50%;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 18px;
+    color: #5D5A88;
+    display: flex;
+    justify-content: center;
+}
+
+.mb-1{
+    position: relative;
+    left: 10%;
+    padding-top: 3%;
+}
+
+.mb-2{
+    position: relative;
+    left: 10%;
+    padding-top: 3%;
+}
+
+.mb-3{
+    position: relative;
+    left: 17%;
+    top: 57%;
+}
+
+.d-grid{
+    position: relative;
+    left: 10%;
+    padding-top:3%;
+}
+
+.forgot-password {
+    position: relative;
+    left: 10%;
+}
+
+.login-button {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: #ddd5ff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px #999;
+  }
+  
+  .login-button:hover {background-color: #cdc1ff}
+  
+  .login-button:active {
+    background-color: #cdc1ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .error{
+    color:red;
+  }
+
+  .profile{
+    position: relative;
+    width: 100%;
+    height: 18px;
+    left: 50px;
+    top: 0px;
+
+    /* font-family: 'DM Sans'; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 18px;
+    
+    color: #5D5A88;
+  }
+
+
+  .profile-button {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: #ddd5ff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px #999;
+    margin-left: 70px;
+    margin-right:-50px;
+  }
+  
+  .profile-button:hover {background-color: #cdc1ff}
+  
+  .profile-button:active {
+    background-color: #cdc1ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }

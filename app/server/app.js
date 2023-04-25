@@ -266,17 +266,17 @@ module.exports = server;
 
 
 // --------------- favorites page routes ---------------
-app.post('/add-to-favorites', async (req, res) => {
-  const { userId, recipeId } = req.body;
-  try {
-    const query = `INSERT INTO Favorites (UserId, RecipeId) VALUES ('${userId}', '${recipeId}')`;
-    const tabsQuery = pool.query(query);
-    const x = await tabsQuery;
-    console.log(tabsQuery);
-    res.json(x);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Unable to add recipe to favorites. Please check the application logs for more details.').end();
-  }
-  console.log("added to favorites table!")
-});
+// app.get('/favorites', async (req, res) => {
+//   const { userId, recipeId } = req.body;
+//   try {
+//     const query = `INSERT INTO Favorites (UserId, RecipeId) VALUES ('${userId}', '${recipeId}')`;
+//     const tabsQuery = pool.query(query);
+//     const x = await tabsQuery;
+//     console.log(tabsQuery);
+//     res.json(x);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send('Unable to add recipe to favorites. Please check the application logs for more details.').end();
+//   }
+//   console.log("added to favorites table!")
+// });
