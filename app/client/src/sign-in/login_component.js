@@ -1,20 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import "./login.css";
 
-export default function Login({ setToken, setLogin }) {
-  const navigate = useNavigate();
-  // need to change the hierarchy to make it possible to use username throughout the app 
+export default function Login({ setToken, setUser, user }) {
+  // const navigate = useNavigate();
   const [username, setUsername] = useState("undefined");
   const [password, setPassword] = useState("undefined");
 
   const [error, setError] = useState(false);
-  const [clicked, setClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (clicked) {
-      axios.get(`http://localhost:8080/login-user/${username}/${password}`, {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser != undefined) {
+      const foundUser = JSON.parse(loggedInUser);
+      console.log("found user: ", foundUser);
+      setUser(foundUser);
+      console.log(foundUser[0].UserId);
+      setToken(foundUser[0].UserId);
+    }
+  })
+
+  if (user != undefined) {
+    navigate("/search", { replace: true });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(username, password);
+    axios.get(`http://localhost:8080/login-user/${username}/${password}`, {
         mode: "no-cors"
       }).then((response) => {
         console.log(response);
@@ -23,30 +40,20 @@ export default function Login({ setToken, setLogin }) {
         } else {
           setError(false);
           setToken(response.data[0].UserId);
-          console.log(response.data[0].UserId);
-          setLogin(true);
+          setUser(response.data);
+          localStorage.setItem('user', JSON.stringify(response.data));
           navigate('/search', { replace: true });
         }
         console.log(error);
       });
-      setClicked(false);
-    }
-  }, [clicked, username, password, error, setClicked, navigate, setToken, setLogin]);
-
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(username, password);
-    setClicked(true);
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-inner">
+    <div className="login-page">
         <form onSubmit={handleSubmit}>
-          <h3 style={{marginBottom: "1em"}}>Sign In</h3>
-
-          <div className="mb-3">
+          <h2 style={{marginBottom: "1em"}}>Hello Again!</h2>
+          <h4 style={{marginBottom: "1em"}} className="sub-heading">Please Sign In to Continue</h4>
+          <div className="mb-1">
             <label>Username &nbsp;</label>
             <input
               type="text"
@@ -57,7 +64,7 @@ export default function Login({ setToken, setLogin }) {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-2">
             <label>Password &nbsp;</label>
             <input
               type="text"
@@ -67,34 +74,33 @@ export default function Login({ setToken, setLogin }) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
+          <br/>
           <div className="mb-3">
-            <div className="custom-control custom-checkbox">
+            <div className="remember">
               <input
                 type="checkbox"
                 style={{marginBottom: "1em"}}
                 className="custom-control-input"
                 id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1" >
+              /> 
+              <label htmlFor="customCheck1" >
                 Remember me
               </label>
             </div>
           </div>
 
           {
-            error ? <p> Your username and password don't match. Please try agian. </p> : <></> 
+            error ? <p className="error"> Your username and password don't match. Please try again. </p> : <></> 
           }
 
           <div className="d-grid">
-            <input style={{marginBottom: "1em"}} type="submit" className="btn btn-primary" />
+            <input style={{marginBottom: "1em"}} type="submit" className="login-button" />
           </div>
-          <p className="forgot-password text-right">
-            <Link to="/sign-up">Sign Up</Link> <br></br>
+          <p className="forgot-password">
+            <Link to="/sign-up">Sign Up</Link>   &nbsp;  &nbsp;  &nbsp;
             <Link to="/forgot-password">Forgot Password</Link>
           </p>
         </form>
       </div>
-    </div>
   );
 }
