@@ -76,6 +76,7 @@ const SearchPage = ({token}) => {
     // display values
     const [clicked, setClicked] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
   
     // return values
     const [recipes, setRecipes] = useState([]);
@@ -101,7 +102,7 @@ const SearchPage = ({token}) => {
               steps: steps,
               tag: JSON.stringify(tag)
             }
-          }).then((response) => {setRecipes(response.data);})
+          }).then((response) => {setRecipes(response.data); setLoading(false);})
           }
           setClicked(false);
         }
@@ -112,6 +113,7 @@ const SearchPage = ({token}) => {
         console.log(inputs);
         setIsSubmitted(true);
         setClicked(true);
+        setLoading(true);
     }
 
 
@@ -120,8 +122,11 @@ const SearchPage = ({token}) => {
         <SearchBar style="margin-bottom:3cm;" inputs={inputs} setInputs={setInputs} handleSubmit={handleSubmit}/>  
         <Filter tag={tag} setTags={setTags} setTime={setTime} setSteps={setSteps} handleSubmit={handleSubmit}/>
         <div className="scroll">
+          {isSubmitted &&
           <ScrollView>
-            {isSubmitted &&
+            {loading ?
+            <LoadingSpinner />
+            :
                 Array.from(recipes).map((recipe) => {
                   if (recipe.RecipeName !== 'RecipeName') {
                     return(
@@ -140,6 +145,7 @@ const SearchPage = ({token}) => {
                 })
             }
           </ScrollView>
+          }
         </div>
         </div>
     )

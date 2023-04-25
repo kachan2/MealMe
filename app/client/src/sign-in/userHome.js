@@ -29,6 +29,7 @@ const UserHome = ({token}) => {
         e.preventDefault();
         localStorage.removeItem("user");
         navigate('/', {replace: true});
+        window.location.reload(false);
     }
 
     return (
