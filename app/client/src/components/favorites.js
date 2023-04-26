@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {ScrollView} from 'react-native';
-import {AiOutlineDelete} from "react-icons/ai";
 import axios from "axios";
-
+import {AiOutlineDelete} from "react-icons/ai";
 import LoadingSpinner from "./functionalities/spinner.js";
-import Recipe from "./searchPages/recipe2.js";
 
 import "./favorites.css";
 
@@ -12,7 +9,6 @@ const Favorites = ({token}) => {
   const [recipes, setRecipes] = useState();
   const [loaded, setLoaded] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [like, setLike] = useState(true);
 
   useEffect(() => {
     if (!loaded) {
@@ -22,6 +18,15 @@ const Favorites = ({token}) => {
       setLoaded(true);
     }
   })
+
+  function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
+    for (var i = 0; i < arraytosearch.length; i++) {
+      if (arraytosearch[i][key] == valuetosearch) {
+        return i;
+      }
+    }
+    return null;
+  }
 
   const renderRecipeDetails = () => {
     if (!selectedRecipe) return null;
@@ -43,6 +48,16 @@ const Favorites = ({token}) => {
         <div>Instructions:</div>
         <div>{numberedSteps}</div>
         <div className="heart-icon2">&#x2764;</div>
+        <button className="delete-btn" onClick={() => {console.log("to delete: ", selectedRecipe.RecipeId);
+                                                      var index = functiontofindIndexByKeyValue(recipes, "RecipeId", selectedRecipe.RecipeId);
+                                                      recipes.splice(index, 1);
+                                                      axios.get(`http://localhost:8080/favorites-delete/${token}/${selectedRecipe.RecipeId}`, {
+                                                              mode: "no-cors"
+                                                          }).then((response) => {console.log(response);});
+                                                          setSelectedRecipe(null);
+                                                      }}>
+          <AiOutlineDelete className="trash"/>
+        </button>
       </div>
     );
   };
