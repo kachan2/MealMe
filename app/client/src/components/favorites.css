@@ -1,0 +1,112 @@
+.favorites-container {
+    padding: 20px;
+  }
+  
+  .scroll {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    height: 400px;
+  }
+
+.heart-icon {
+  font-size: 30px;
+  text-align: center;
+  color: #a18bbc;
+}
+.heart-icon2 {
+    font-size: 30px;
+    text-align: center;
+    color: #a18bbc;
+    padding-top: 40px;
+    cursor: auto;
+  }
+.recipe-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #a18bbc;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .recipe-name {
+    color: #6f5274;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+
+  .food-icon {
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+  }
+  .recipe-card {
+    border: 1px solid #a18bbc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .back-btn {
+    background-color: #a18bbc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: auto;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: 0.5%;
+  }
+  
+  .recipe-details {
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .recipe-details2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #a18bbc;
+    padding: 20px;
+    padding-bottom: 10%;
+    color: #a18bbc;
+
+  }
+  .recipe-details > div:not(:first-child) {
+    max-width: fit-content;
+    margin: 0 auto;
+  }
+  .recipe-details h2 {
+    color: #6f5274;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .recipe-details p {
+    margin: 5px;
+    font-size: 14px;
+  }
+  
+  .recipe-details p span {
+    font-weight: bold;
+  }
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+  }
