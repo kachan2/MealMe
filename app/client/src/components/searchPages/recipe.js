@@ -42,12 +42,11 @@ const Recipe = ({recipeid, name, time, steps, instruction, userid}) => {
                 <p><b>Time:</b> {time} &nbsp; <b>Number of Steps:</b> {steps} &nbsp; </p>
                 <p><u>Instructions: </u></p>
                 {   instruction && 
-                    Array.from(instruction.split(/\r?\n/)).map((i, idx) => {
+                    [...new Set(instruction.split("\n"))].map((i, idx) => {
                         return (
                             <p>{idx + 1}. &nbsp; {i}</p>
                         );
                     })
-                    
                 }
             </div>
             </section>

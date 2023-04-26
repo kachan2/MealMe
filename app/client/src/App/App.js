@@ -13,17 +13,18 @@ import UserHome from "../sign-in/userHome";
 
 const App = () => {
   const [token, setToken] = useState();
-  const [user, setUser] = useState();
-  const [found, setFound] = useState(localStorage.getItem("user"));
+  const [user, setUser] = useState(undefined);
+  // const [found, setFound] = useState(localStorage.getItem("user"));
 
 
 
   useEffect(() => {
-      if (found != undefined && user == undefined && token == undefined) {
-        const foundUser = JSON.parse(found);
+    const localUser = localStorage.getItem("user");
+      if (localUser != undefined && user == undefined && token == undefined) {
+        const foundUser = JSON.parse(localUser);
         setUser(foundUser);
         setToken(foundUser[0].UserId);
-        console.log(setToken)
+        console.log(setToken);
       }
     
   })

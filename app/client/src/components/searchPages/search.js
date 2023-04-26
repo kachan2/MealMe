@@ -69,8 +69,8 @@ const Filter = ({tag, setTags, setTime, setSteps, handleSubmit}) => {
 const SearchPage = ({token}) => {
     // attributes
     const [inputs, setInputs] = useState("");
-    const [time, setTime] = useState(10000);
-    const [steps, setSteps] = useState(10000);
+    const [time, setTime] = useState(40);
+    const [steps, setSteps] = useState(200);
     const [tag, setTags] = useState([]);
 
     // display values
@@ -93,7 +93,7 @@ const SearchPage = ({token}) => {
               time: time, 
               steps: steps,
             }
-          }).then((response) => {setRecipes(response.data);})
+          }).then((response) => {setRecipes(response.data); setLoading(false);})
           } else {
             axios.get(`http://localhost:8080/search`, {
             params: {
@@ -102,9 +102,9 @@ const SearchPage = ({token}) => {
               steps: steps,
               tag: JSON.stringify(tag)
             }
-            }).then((response) => {setRecipes(response.data);})
+            }).then((response) => { setRecipes(response.data); setLoading(false);})
           }
-          setLoading(false);
+          
           setClicked(false);
         }
     },[clicked, setClicked, inputs, time, steps])
