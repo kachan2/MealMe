@@ -21,19 +21,25 @@ const MenuProps = {
 const names = [
   'easy',
   'side-dishes',
+  'snacks',
   'kid-friendly',
   'vegan',
   'equipment',
   'dietary',
   'holiday-event',
+  'oven',
   'low-calorie',
   'meat',
   'north-american',
   'preparation',
   'cuisine',
-  'squash',
+  'breads',
   'super-bowl',
-  'time-to-make'
+  'time-to-make',
+  'no-cook',
+  'seasonal',
+  'non-alcoholic',
+  'leftovers'
 ];
 
 const MultipleSelectCheckmarks = ({tag, setTags}) => {
