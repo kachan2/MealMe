@@ -102,8 +102,9 @@ const SearchPage = ({token}) => {
               steps: steps,
               tag: JSON.stringify(tag)
             }
-          }).then((response) => {setRecipes(response.data); setLoading(false);})
+            }).then((response) => {setRecipes(response.data);})
           }
+          setLoading(false);
           setClicked(false);
         }
     },[clicked, setClicked, inputs, time, steps])

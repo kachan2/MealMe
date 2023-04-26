@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {ScrollView} from 'react-native';
+import {AiOutlineDelete} from "react-icons/ai";
 import axios from "axios";
 
 import LoadingSpinner from "./functionalities/spinner.js";
+import Recipe from "./searchPages/recipe2.js";
 
 const Favorites = ({token}) => {
   const [recipes, setRecipes] = useState();
@@ -25,9 +27,16 @@ const Favorites = ({token}) => {
                 Array.from(recipes).map((recipe) => {
                   if (recipe.RecipeName !== 'RecipeName') {
                     return(
-                      <>
-                      {recipe.RecipeName} <br/>
-                      </>
+                      <div>
+                       <Recipe 
+                        key={recipe.RecipeId} 
+                        recipeid={recipe.RecipeId} 
+                        name={recipe.RecipeName} 
+                        time={recipe.Time} 
+                        steps={recipe.NumberOfSteps} 
+                        userid={token} 
+                        instruction={recipe.Instructions} />
+                      </div>
                     );
                   }
                 })
