@@ -30,7 +30,7 @@ const Favorites = ({token}) => {
 
   const renderRecipeDetails = () => {
     if (!selectedRecipe) return null;
-    const steps = selectedRecipe.Instructions.split(",");
+    const steps = selectedRecipe.Instructions.split("\n");
       const numberedSteps = steps.map((step, index) => (
       <div key={index}>
         {index + 1}. {step.trim()}
