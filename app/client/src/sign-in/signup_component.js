@@ -68,7 +68,7 @@ export default function SignUp() {
             <input style={{marginBottom: "1em"}} type="submit" className="login-button" />
           </div>
           <p className="forgot-password text-right">
-            Already registered? <a href="/login">Sign In</a>
+            Already registered? <a href="/">Sign In</a>
           </p>
         </form>
       </div>
