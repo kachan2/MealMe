@@ -43,9 +43,14 @@ const Recipe = ({recipeid, name, time, steps, instruction, userid}) => {
                 <p><u>Instructions: </u></p>
                 {   instruction && 
                     [...new Set(instruction.split("\n"))].map((i, idx) => {
-                        return (
-                            <p>{idx + 1}. &nbsp; {i}</p>
-                        );
+                        if (idx != 0) {
+                            return (
+                                <p>{idx}. &nbsp; {i}</p>
+                            );
+                        } else {
+                            return (<></>);
+                        }
+                        
                     })
                 }
             </div>
